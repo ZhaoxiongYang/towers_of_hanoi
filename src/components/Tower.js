@@ -13,7 +13,7 @@ class Tower extends Component {
   render (){
     let { list , clickFn } = this.props;
     let towerList = list.map((item,index) => {
-      return <li key={index} style={{ width : item.num  * 25 + 15 + 'px' , backgroundColor : item.color }}>''</li>;
+      return <li key={index} style={{ width : item.num  * 40 + 15 + 'px' , backgroundColor : item.color }}>''</li>;
     });
     return (
       <ul onClick={clickFn} className='tower'>

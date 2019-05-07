@@ -3,12 +3,16 @@ import "../App.css";
 import Tower from "./Tower";
 import AlertDialog from './AlertDialog'
 import Button from '@material-ui/core/Button';
+import Snackbar from '@material-ui/core/Snackbar';
 
 class Disks extends Component {
   
   constructor(){
     super();
     this.state = { 
+      openSnakBarOpen : false,
+      vertical: 'top',
+      horizontal: 'center',
       alertOpen: false,
       winCheckOpen:false,
       Towers:['Tower1','Tower2','Tower3'],
@@ -91,6 +95,11 @@ class Disks extends Component {
           step:++this.state.step
         });
       }
+      else{
+        this.handleSnakBarOpen()
+        //this.getSnakBar(this.state.vertical,this.state.horizontal)
+      }
+      
     }
     this.winCheck()
   }
@@ -114,12 +123,8 @@ class Disks extends Component {
 
   winCheck(){
     let { level } = this.props;
-          console.log("winCheck0", )
-    if ( this.state.st === 'catch' ) {
-      console.log("winCheck1")
+    if ( this.state.st === 'catch') {
       if(this.state['Tower3'].length === level && this.state['Tower2'].length === 0 && this.state['Tower1'].length === 0){
-              console.log("winCheck2")
-
         this.handleWinCheckAlertOpen();
       }
     }
@@ -158,8 +163,31 @@ class Disks extends Component {
             </Button>);
   }
 
+  handleSnackBarClose = () => {
+    this.setState({ openSnakBarOpen: false });
+  };
+
+  handleSnakBarOpen = () => {
+    this.setState({ openSnakBarOpen: true});
+  };
+
+  getSnackBar = (vertical,horizontal) => {
+    console.log("wrong move")
+    return (
+      <Snackbar
+          anchorOrigin={ {vertical, horizontal}}
+          open={this.state.openSnakBarOpen}
+          autoHideDuration={1000}
+          onClose={this.handleSnackBarClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">Wrong Move</span>}
+        />)
+  }
+
   render (){
-    console.log("state alertOpen ", this.state.alertOpen)
+    const { vertical, horizontal, open } = this.state;
     return (
       <div className='container'>
         <div className="step">step:{this.state.step}</div>
@@ -189,6 +217,9 @@ class Disks extends Component {
            confirmButton={this.getConfirmAction((e) => this.handleWinCheckClose(e, this.reset))} 
            dialogTitle="Congratulations!"
            dialogMessage="You nailed it! Let's play again!"/>}
+        {
+          this.getSnackBar(this.state.vertical,this.state.horizontal)
+        }
       </div>
     );
   } 
