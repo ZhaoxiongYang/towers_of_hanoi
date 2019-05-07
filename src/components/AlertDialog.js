@@ -19,6 +19,9 @@ class AlertDialog extends React.Component {
     this.setState({ open: false });
     closeCallback()
   };
+  handleCancel = (event) => {
+    this.setState({ open: false });
+  };
 
   render() {
     return (
@@ -39,7 +42,7 @@ class AlertDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleCancel} color="primary">
               CANCEL
             </Button>
             <Button onClick={(e) => this.handleClose(e, this.props.closeCallback)} color="primary" autoFocus>

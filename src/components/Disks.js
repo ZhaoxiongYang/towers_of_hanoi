@@ -1,7 +1,7 @@
 import React, { Component} from "react";
 import "../App.css";
 import Tower from "./Tower";
-import Dialog from './AlertDialog'
+import AlertDialog from './AlertDialog'
 
 
 class Disks extends Component {
@@ -17,6 +17,7 @@ class Disks extends Component {
       Tower3:[],
       st:'static', // static => catch => static
     };
+
   }
 
   componentWillMount(){
@@ -66,10 +67,8 @@ class Disks extends Component {
     if ( this.state.st === 'static' ) {
       if ( this.state[name].length > 0 ) {
         this.state[name][this.state[name].length - 1].color = '#3f51b5';
-        this.state.st = 'catch';
         this.setState({
-          [name]:this.state[name],
-          st:this.state.st
+          st:'catch'
         });
       }
     } else if ( this.state.st === 'catch' ) {
@@ -118,8 +117,6 @@ class Disks extends Component {
         console.log("win")
       }
     }
-     
-
   }
 
   render (){
@@ -137,7 +134,7 @@ class Disks extends Component {
           <Tower list={this.state.Tower2} clickFn={this.clickFn(1)} />
           <Tower list={this.state.Tower3} clickFn={this.clickFn(2)} />
         </div>
-        {<Dialog closeCallback={this.reset}/>}
+        {<AlertDialog closeCallback={this.reset}/>}
       </div>
     );
   } 
