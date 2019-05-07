@@ -18,19 +18,15 @@ class AlertDialog extends React.Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{"Are you sure?  "}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{this.props.dialogTitle}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Your progress will be Lost!
+              {this.props.dialogMessage}
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.props.handleCancel} color="primary">
-              CANCEL
-            </Button>
-            <Button onClick={this.props.handleClose} color="primary" autoFocus>
-              YES
-            </Button>
+            {this.props.cancelButton}
+            {this.props.confirmButton}
           </DialogActions>
         </Dialog>
       </div>

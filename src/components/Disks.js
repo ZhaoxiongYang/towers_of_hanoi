@@ -132,6 +132,18 @@ class Disks extends Component {
     this.setState({ alertOpen: false });
   };
 
+  getCancelAction=()=>{
+    return(<Button onClick={this.handleCancel} color="primary">
+              CANCEL
+            </Button>);
+  }
+
+  getConfirmAction=()=>{
+    return(<Button onClick={(e) => this.handleClose(e, this.reset)} color="primary" autoFocus>
+              YES
+            </Button>);
+  }
+
   render (){
     console.log("state alertOpen ", this.state.alertOpen)
     return (
@@ -151,7 +163,13 @@ class Disks extends Component {
         <Button variant="outlined" color="primary" onClick={this.handleAlertOpen}>
           Restart
         </Button>
-        {<AlertDialog open={this.state.alertOpen} handleCancel={this.handleCancel} handleClose={(e) => this.handleClose(e, this.reset)}/>}
+        {<AlertDialog 
+          open={this.state.alertOpen} 
+           handleClose={(e) => this.handleClose(e, this.reset)}
+           cancelButton= {this.getCancelAction()}
+           confirmButton={this.getConfirmAction()} 
+           dialogTitle="Are you sure?"
+           dialogMessage="You are about to reset your progress..."/>}
       </div>
     );
   } 
