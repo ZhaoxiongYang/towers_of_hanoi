@@ -10,6 +10,7 @@ class Disks extends Component {
     super();
     this.state = { 
       alertOpen: false,
+      winCheckOpen:false,
       Towers:['Tower1','Tower2','Tower3'],
       lock:false,
       step:0,
@@ -91,6 +92,7 @@ class Disks extends Component {
         });
       }
     }
+    this.winCheck()
   }
 
   findCatch(){
@@ -112,13 +114,25 @@ class Disks extends Component {
 
   winCheck(){
     let { level } = this.props;
-
-    if ( this.state.st === 'static' ) {
+          console.log("winCheck0", )
+    if ( this.state.st === 'catch' ) {
+      console.log("winCheck1")
       if(this.state['Tower3'].length === level && this.state['Tower2'].length === 0 && this.state['Tower1'].length === 0){
-        console.log("win")
+              console.log("winCheck2")
+
+        this.handleWinCheckAlertOpen();
       }
     }
   }
+
+  handleWinCheckAlertOpen = () => {
+    this.setState({ winCheckOpen: true });
+  };
+
+  handleWinCheckClose = (event, closeCallback) => {
+    this.setState({ winCheckOpen: false });
+    closeCallback()
+  };
 
   handleAlertOpen = () => {
     this.setState({ alertOpen: true });
@@ -138,8 +152,8 @@ class Disks extends Component {
             </Button>);
   }
 
-  getConfirmAction=()=>{
-    return(<Button onClick={(e) => this.handleClose(e, this.reset)} color="primary" autoFocus>
+  getConfirmAction=(clickHandler)=>{
+    return(<Button onClick={clickHandler} color="primary" autoFocus>
               YES
             </Button>);
   }
@@ -148,7 +162,6 @@ class Disks extends Component {
     console.log("state alertOpen ", this.state.alertOpen)
     return (
       <div className='container'>
-      {this.winCheck()}
         <div className="step">step:{this.state.step}</div>
         <div className="top">
           <div className="name">Tower1</div>
@@ -167,9 +180,15 @@ class Disks extends Component {
           open={this.state.alertOpen} 
            handleClose={(e) => this.handleClose(e, this.reset)}
            cancelButton= {this.getCancelAction()}
-           confirmButton={this.getConfirmAction()} 
+           confirmButton={this.getConfirmAction((e) => this.handleClose(e, this.reset))} 
            dialogTitle="Are you sure?"
            dialogMessage="You are about to reset your progress..."/>}
+        {<AlertDialog 
+          open={this.state.winCheckOpen} 
+           handleClose={(e) => this.handleClose(e, this.reset)}
+           confirmButton={this.getConfirmAction((e) => this.handleWinCheckClose(e, this.reset))} 
+           dialogTitle="Congratulations!"
+           dialogMessage="You nailed it! Let's play again!"/>}
       </div>
     );
   } 
