@@ -28,7 +28,7 @@ class Disks extends Component {
       let Tower1 = Array(level).join(',').split(',').map((item,index,array) => {
         return { 
           num : array.length - index,
-          color : 'red'
+          color : '#ff9800'
         };
       });
       let Tower2 = [];
@@ -87,7 +87,7 @@ class Disks extends Component {
             array[index].pop();
           }
         });
-        catchItem.color = 'red';
+        catchItem.color = '#ff9800';
         this.state[name].push(catchItem);
         this.setState({
           Tower1:this.state.Tower1,
