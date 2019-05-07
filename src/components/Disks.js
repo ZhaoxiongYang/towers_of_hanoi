@@ -2,13 +2,14 @@ import React, { Component} from "react";
 import "../App.css";
 import Tower from "./Tower";
 import AlertDialog from './AlertDialog'
-
+import Button from '@material-ui/core/Button';
 
 class Disks extends Component {
   
   constructor(){
     super();
     this.state = { 
+      alertOpen: false,
       Towers:['Tower1','Tower2','Tower3'],
       lock:false,
       step:0,
@@ -119,7 +120,20 @@ class Disks extends Component {
     }
   }
 
+  handleAlertOpen = () => {
+    this.setState({ alertOpen: true });
+  };
+
+  handleClose = (event, closeCallback) => {
+    this.setState({ alertOpen: false });
+    closeCallback()
+  };
+  handleCancel = (event) => {
+    this.setState({ alertOpen: false });
+  };
+
   render (){
+    console.log("state alertOpen ", this.state.alertOpen)
     return (
       <div className='container'>
       {this.winCheck()}
@@ -134,7 +148,10 @@ class Disks extends Component {
           <Tower list={this.state.Tower2} clickFn={this.clickFn(1)} />
           <Tower list={this.state.Tower3} clickFn={this.clickFn(2)} />
         </div>
-        {<AlertDialog closeCallback={this.reset}/>}
+        <Button variant="outlined" color="primary" onClick={this.handleAlertOpen}>
+          Restart
+        </Button>
+        {<AlertDialog open={this.state.alertOpen} handleCancel={this.handleCancel} handleClose={(e) => this.handleClose(e, this.reset)}/>}
       </div>
     );
   } 

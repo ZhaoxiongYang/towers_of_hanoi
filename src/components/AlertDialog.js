@@ -8,30 +8,13 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import {reset} from './Disks'
 
 class AlertDialog extends React.Component {
-  state = {
-    open: false,
-  };
-
-  handleClickOpen = () => {
-    this.setState({ open: true });
-  };
-   handleClose = (event, closeCallback) => {
-    this.setState({ open: false });
-    closeCallback()
-  };
-  handleCancel = (event) => {
-    this.setState({ open: false });
-  };
-
+  
   render() {
     return (
       <div>
-        <Button variant="outlined" color="primary" onClick={this.handleClickOpen}>
-          Restart
-        </Button>
         <Dialog
-          open={this.state.open}
-          onClose={this.handleClose}
+          open={this.props.open}
+          onClose={this.props.handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
@@ -42,10 +25,10 @@ class AlertDialog extends React.Component {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCancel} color="primary">
+            <Button onClick={this.props.handleCancel} color="primary">
               CANCEL
             </Button>
-            <Button onClick={(e) => this.handleClose(e, this.props.closeCallback)} color="primary" autoFocus>
+            <Button onClick={this.props.handleClose} color="primary" autoFocus>
               YES
             </Button>
           </DialogActions>
