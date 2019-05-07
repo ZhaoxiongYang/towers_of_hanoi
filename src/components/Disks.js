@@ -61,14 +61,6 @@ class Disks extends Component {
     this.click(name);
   }
 
-  timeoutClick(name){
-    return new Promise((resolve, reject) => {
-      setTimeout(()=>{
-        this.click(name);
-        return resolve();
-      },100);
-    });
-  }
 
   click(name){
     if ( this.state.st === 'static' ) {
@@ -112,14 +104,28 @@ class Disks extends Component {
       return item.color === '#3f51b5';
     });
   }
+
   reset = ()=>{
     if ( this.state.lock ) return false;
     this.initData();
   }
 
+  winCheck(){
+    let { level } = this.props;
+
+    if ( this.state.st === 'static' ) {
+      if(this.state['Tower3'].length === level && this.state['Tower2'].length === 0 && this.state['Tower1'].length === 0){
+        console.log("win")
+      }
+    }
+     
+
+  }
+
   render (){
     return (
       <div className='container'>
+      {this.winCheck()}
         <div className="step">step:{this.state.step}</div>
         <div className="top">
           <div className="name">Tower1</div>
