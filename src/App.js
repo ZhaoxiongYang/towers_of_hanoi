@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { Component, Children } from "react";
 import './App.css';
-import Towers from './components/Towers'
+import "./index.css";
 
+import Disks from "./components/Disks";
 
-function App() {
-  return (
+const level = 3;
+
+export default class App extends Component {
   
-  <Towers />
-  );
+  constructor(){
+    super();
+    this.state = { 
+    };
+  }
+
+  render (){
+    return (
+      <Disks level={level} />
+    );
+  } 
 }
 
-export default App;
