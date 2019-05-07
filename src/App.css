@@ -20,7 +20,7 @@ body {
   overflow: hidden;
 }
 
-#canves {
+#canvas {
   width: 395px;
   height: 240px;
   display: flex;
@@ -69,4 +69,32 @@ body {
   font-size: 0;
   z-index: 20;
 }
+
+.disk.hold {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+}
+
+.swal2-overlay {
+  background-color: white;
+}
+
+.disk-1 {
+  width: 52.5px;
+  background-color: #e91e63;
+}
+
+.disk-2 {
+  width: 87.5px;
+  background-color: #673ab7;
+}
+
+.disk-3 {
+  width: 122.5px;
+  background-color: #3f51b5;
+}
+
 
