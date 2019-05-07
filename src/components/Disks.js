@@ -1,9 +1,9 @@
-import React, { Component, Children } from "react";
+import React, { Component} from "react";
 import "../App.css";
 import Tower from "./Tower";
 
 
-export default class Disks extends Component {
+class Disks extends Component {
   
   constructor(){
     super();
@@ -55,7 +55,86 @@ export default class Disks extends Component {
     }
   }
 
- 
+  clickHigh(name){
+    if ( this.state.lock ) return false;
+    this.click(name);
+  }
+
+  timeoutClick(name){
+    return new Promise((resolve, reject) => {
+      setTimeout(()=>{
+        this.click(name);
+        return resolve();
+      },100);
+    });
+  }
+
+  click(name){
+    if ( this.state.st === 'static' ) {
+      if ( this.state[name].length > 0 ) {
+        this.state[name][this.state[name].length - 1].color = '#3f51b5';
+        this.state.st = 'catch';
+        this.setState({
+          [name]:this.state[name],
+          st:this.state.st
+        });
+      }
+    } else if ( this.state.st === 'catch' ) {
+      let catchItem = this.findCatch();
+      if ( this.state[name].length === 0 || this.state[name][this.state[name].length - 1].num >= catchItem.num ) {
+        [ this.state.Tower1, this.state.Tower2, this.state.Tower3 ].forEach((item,index,array)=>{
+          if ( item.length > 0 && item[item.length - 1] === catchItem ){ 
+            array[index].pop();
+          }
+        });
+        catchItem.color = 'red';
+        this.state[name].push(catchItem);
+        this.setState({
+          Tower1:this.state.Tower1,
+          Tower2:this.state.Tower2,
+          Tower3:this.state.Tower3,
+          st:'static',
+          step:++this.state.step
+        });
+      }
+    }
+  }
+
+  findCatch(){
+    let list = [
+      ...this.state.Tower1,
+      ...this.state.Tower2,
+      ...this.state.Tower3
+    ]
+
+    return list.find((item) =>{
+      return item.color === '#3f51b5';
+    });
+  }
+
+
+  move(n,where){
+    let origin = this.findNum(n);
+    let other = this.findOther(origin,where);
+    return this.move(n-1,other)
+               .then(()=>this.timeoutClick(origin))
+               .then(()=>this.timeoutClick(where))
+               .then(()=>this.move(n-1,where))
+               .catch((err)=>{console.log(err)});
+  }
+
+  findOther(origin,where){
+    return this.state.Towers.filter(item => item !== origin && item !== where)[0];
+  }
+
+  findNum(number){
+    const nameList = this.state.Towers;
+    let name;
+    [ this.state.Tower1 , this.state.Tower2 , this.state.Tower3 ].forEach((item,index)=>{
+      if ( item.find(el => el.num === number) !== undefined ) name = nameList[index];
+    }); 
+    return name;
+  }
 
   render (){
     return (
@@ -71,8 +150,10 @@ export default class Disks extends Component {
           <Tower list={this.state.Tower2} clickFn={this.clickFn(1)} />
           <Tower list={this.state.Tower3} clickFn={this.clickFn(2)} />
         </div>
-
       </div>
     );
   } 
 }
+
+
+export default Disks;

@@ -1,8 +1,7 @@
-import React, { Component, Children } from "react";
+import React, { Component} from "react";
 import "../App.css";
-// import '../App.css';
 
-export default class Tower extends Component {
+class Tower extends Component {
   
   constructor(){
     super();
@@ -23,3 +22,5 @@ export default class Tower extends Component {
     );
   } 
 }
+
+export default  Tower;
