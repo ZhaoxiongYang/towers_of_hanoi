@@ -1,6 +1,7 @@
 import React, { Component} from "react";
 import "../App.css";
 import Tower from "./Tower";
+import Dialog from './AlertDialog'
 
 
 class Disks extends Component {
@@ -111,29 +112,9 @@ class Disks extends Component {
       return item.color === '#3f51b5';
     });
   }
-
-
-  move(n,where){
-    let origin = this.findNum(n);
-    let other = this.findOther(origin,where);
-    return this.move(n-1,other)
-               .then(()=>this.timeoutClick(origin))
-               .then(()=>this.timeoutClick(where))
-               .then(()=>this.move(n-1,where))
-               .catch((err)=>{console.log(err)});
-  }
-
-  findOther(origin,where){
-    return this.state.Towers.filter(item => item !== origin && item !== where)[0];
-  }
-
-  findNum(number){
-    const nameList = this.state.Towers;
-    let name;
-    [ this.state.Tower1 , this.state.Tower2 , this.state.Tower3 ].forEach((item,index)=>{
-      if ( item.find(el => el.num === number) !== undefined ) name = nameList[index];
-    }); 
-    return name;
+  reset = ()=>{
+    if ( this.state.lock ) return false;
+    this.initData();
   }
 
   render (){
@@ -150,6 +131,7 @@ class Disks extends Component {
           <Tower list={this.state.Tower2} clickFn={this.clickFn(1)} />
           <Tower list={this.state.Tower3} clickFn={this.clickFn(2)} />
         </div>
+        {<Dialog closeCallback={this.reset}/>}
       </div>
     );
   } 
