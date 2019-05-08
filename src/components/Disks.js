@@ -32,7 +32,7 @@ class Disks extends Component {
       winCheckOpen:false,
       needInit: this.props.needInit, 
       Towers:['Tower1','Tower2','Tower3'],
-      colors:['#FF6666','#FF3333','#FF0000','#CC0000','#660000'],
+      colors:['#FF6666','#FF3333','#FF0000','#CC0000','#990000','#660000','#330000'],
       step:0,
       Tower1:this.props.tower1,
       Tower2:this.props.tower2,
@@ -291,7 +291,9 @@ class Disks extends Component {
       </span>
 
       <span style = {{padding : 20}} >
-          <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>Solution</Button>
+          <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>
+            Solution
+          </Button>
       </span>
       </div>
 

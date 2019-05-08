@@ -93,13 +93,13 @@ const images = [
   {
     url: 'https://pbs.twimg.com/media/CnpVgMfVYAA9k7Z.jpg',
     title: 'MEDIUM',
-    disknum: 4,
+    disknum: 5,
     width: '33.3%',
   },
   {
     url: 'https://www.nicepng.com/png/detail/441-4418524_alolan-raichu-png-raichu-alola-pokemon-png.png',
     title: 'HARD',
-    disknum: 5,
+    disknum: 7,
     width: '33.3%',
   },
 ];

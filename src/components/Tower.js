@@ -16,7 +16,7 @@ class Tower extends Component {
         return <li className = "selected" style={{marginBottom: 120,paddingTop: 5, width : item.num  * 50  + 'px' , backgroundColor : item.color}}><font color="white">{item.num}</font></li>;
       }
       else{
-        return <li  style={{marginTop: 2,paddingTop: 5, width : item.num  * 50  + 'px' , backgroundColor : item.color}}><font color="white">{item.num}</font></li>;
+        return <li  style={{marginTop: 2,paddingTop: 5, width : item.num  * 40  + 'px' , backgroundColor : item.color}}><font color="white">{item.num}</font></li>;
       }
     });
     return (
