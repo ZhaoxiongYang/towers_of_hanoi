@@ -5,30 +5,52 @@ import AlertDialog from './AlertDialog'
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import { spacing } from '@material-ui/system';
+import { connect } from 'react-redux';
+import store from '../store';
+import { UPDATE_GAME_STATUS} from "../ReduxStoreActions";
+
+const mapStateToProps = store => {
+  return {
+    tower1: store.game.tower1,
+    tower2: store.game.tower2,
+    tower3: store.game.tower3,
+    activeTower: store.game.activeTower,
+    gameStatus: store.game.gameStatus,
+    needInit : store.game.needInit,
+  }
+}
 
 class Disks extends Component {
   
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    console.log("props", this.props)
     this.state = { 
       openSnakBarOpen : false,
       vertical: 'top',
       horizontal: 'center',
       alertOpen: false,
       winCheckOpen:false,
+      needInit: this.props.needInit, 
       Towers:['Tower1','Tower2','Tower3'],
       step:0,
-      Tower1:[],
-      Tower2:[],
-      Tower3:[],
-      activeTower: '',
-      gameStatus:'static', // static => catch => static
+      Tower1:this.props.tower1,
+      Tower2:this.props.tower2,
+      Tower3:this.props.tower3,
+      activeTower: this.props.activeTower,
+      gameStatus:this.props.gameStatus, // static => catch => static
     };
+    console.log("state0", this.state.Tower2)
 
   }
 
   componentWillMount(){
-    this.initData();
+    console.log("init =", this.state)
+    if(this.state.needInit)
+      {
+        console.log("init0000 ")
+        this.initData();
+      }
   }
 
   initData(){
@@ -42,13 +64,18 @@ class Disks extends Component {
       });
       let Tower2 = [];
       let Tower3 = [];
+      console.log("state0: ", this.state)
+
       this.setState({
-        Tower1,
-        Tower2,
-        Tower3,
+        Tower1: Tower1,
+        Tower2: Tower2,
+        Tower3: Tower3,
         step:0,
         gameStatus:'static', // static => catch => static
+        needInit : false,
       });
+      console.log("state1: ", this.state)
+      this.updateGameStatus(Tower1,Tower2,Tower3,"",'static',false)
     }  
   }
 
@@ -64,6 +91,19 @@ class Disks extends Component {
     }
   }
 
+  updateGameStatus = (tower1,tower2,tower3,activeTower,gameStatus,needInit) => {
+    console.log("test updateIsInGameStatus")
+    store.dispatch({
+      type:UPDATE_GAME_STATUS,
+      tower1: tower1,
+      tower2: tower2,
+      tower3: tower3,
+      activeTower: activeTower,
+      gameStatus: gameStatus,
+      needInit: needInit,
+    })
+  }
+
   click(name){
     if ( this.state.gameStatus === 'static' ) {
       if ( this.state[name].length > 0 ) {
@@ -73,7 +113,9 @@ class Disks extends Component {
           name: tower,
           gameStatus:'catch',
           activeTower: name,
+          needInit : false,
         });
+        this.updateGameStatus(this.state.Tower1,this.state.Tower2,this.state.Tower3,this.state.activeTower,this.state.gameStatus,this.state.needInit)
       }
     } else if ( this.state.gameStatus === 'catch' ) {
       let formTowerName = this.state.activeTower;
@@ -88,14 +130,17 @@ class Disks extends Component {
           formTowerName: formTower, 
           activeTower : '',
           gameStatus:'static',
-          step:++this.state.step
+          step:++this.state.step,
+          needInit : false,
         });
+        this.updateGameStatus(this.state.Tower1,this.state.Tower2,this.state.Tower3,this.state.activeTower,this.state.gameStatus,this.state.needInit)
       }
       else{
         this.handleSnakBarOpen()
       }  
     }
     this.winCheck()
+
   }
 
   reset = ()=>{
@@ -188,6 +233,7 @@ class Disks extends Component {
 
   render (){
     const { vertical, horizontal, open } = this.state;
+    console.log("state = ", this.state.Tower2  )
     return (
       <div className='container'>
         
@@ -223,5 +269,4 @@ class Disks extends Component {
   } 
 }
 
-
-export default Disks;
+export default connect(mapStateToProps)(Disks);

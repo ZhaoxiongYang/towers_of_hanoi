@@ -128,6 +128,7 @@ class Home extends React.Component {
     store.dispatch({
       type:UPDATE_GAME_LEVEL ,
       disknum: disknum,
+      needInit: true,
     })
   }
 

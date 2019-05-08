@@ -2,7 +2,7 @@ import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {saveState, loadState} from "./localStorage";
 import {createLogger} from "redux-logger";
-import {UPDATE_GAME_LEVEL} from "./ReduxStoreActions";
+import {UPDATE_GAME_LEVEL, UPDATE_GAME_STATUS} from "./ReduxStoreActions";
 
 const default_game = {
 	disknum : 0,
@@ -18,6 +18,16 @@ const gameReducer= (state = default_game, action) => {
     case UPDATE_GAME_LEVEL:
       return {...state,
         disknum: action.disknum,
+        needInit: action.needInit,
+      }
+    case UPDATE_GAME_STATUS:
+      return {...state,
+        tower1: action.tower1,
+		tower2: action.tower2,
+		tower3: action.tower3,
+		activeTower: action.activeTower,
+		gameStatus: action.gameStatus,
+		needInit: action.needInit,
       }
     default:
       return state

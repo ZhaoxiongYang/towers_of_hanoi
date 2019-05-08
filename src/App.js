@@ -4,7 +4,6 @@ import "./index.css";
 import Disks from "./components/Disks";
 import TopBar from "./components/TopBar";
 import Home from "./components/Home";
-import { connect } from 'react-redux';
 
 class App extends Component {
   
