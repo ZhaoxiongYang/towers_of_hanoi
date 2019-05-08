@@ -22,6 +22,7 @@ class Disks extends Component {
       Tower1:[],
       Tower2:[],
       Tower3:[],
+      activeTower: '',
       st:'static', // static => catch => static
     };
 
@@ -60,63 +61,43 @@ class Disks extends Component {
     ]
     return () => {
       const name = list[num];
-      this.clickHigh(name);
+      this.click(name);
     }
   }
-
-  clickHigh(name){
-    if ( this.state.lock ) return false;
-    this.click(name);
-  }
-
 
   click(name){
     if ( this.state.st === 'static' ) {
       if ( this.state[name].length > 0 ) {
         let tower = this.state[name];
-        tower[tower.length - 1].color = '#3f51b5'
+        tower[tower.length - 1].color = '#3f51b5' 
         this.setState({
           name: tower,
-          st:'catch'
+          st:'catch',
+          activeTower: name,
         });
       }
     } else if ( this.state.st === 'catch' ) {
-      let catchItem = this.findCatch();
-      if ( this.state[name].length === 0 || this.state[name][this.state[name].length - 1].num >= catchItem.num ) {
-        [ this.state.Tower1, this.state.Tower2, this.state.Tower3 ].forEach((item,index,array)=>{
-          if ( item.length > 0 && item[item.length - 1] === catchItem ){ 
-            array[index].pop();
-          }
-        });
-        catchItem.color = '#ff9800';
-        this.state[name].push(catchItem);
+      let formTowerName = this.state.activeTower;
+      let formTower = this.state[formTowerName];
+      let toTower = this.state[name];
+      if ( toTower.length === 0 || toTower[toTower.length - 1].num >= formTower[formTower.length - 1].num ){
+        let moveItem = formTower.pop();
+        moveItem.color = '#ff9800';
+        toTower.push(moveItem);
         this.setState({
-          Tower1:this.state.Tower1,
-          Tower2:this.state.Tower2,
-          Tower3:this.state.Tower3,
+          name : toTower,
+          formTowerName: formTower,
+
+          activeTower : '',
           st:'static',
           step:++this.state.step
         });
       }
       else{
         this.handleSnakBarOpen()
-        //this.getSnakBar(this.state.vertical,this.state.horizontal)
-      }
-      
+      }  
     }
     this.winCheck()
-  }
-
-  findCatch(){
-    let list = [
-      ...this.state.Tower1,
-      ...this.state.Tower2,
-      ...this.state.Tower3
-    ]
-
-    return list.find((item) =>{
-      return item.color === '#3f51b5';
-    });
   }
 
   reset = ()=>{
