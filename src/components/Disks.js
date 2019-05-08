@@ -73,8 +73,10 @@ class Disks extends Component {
   click(name){
     if ( this.state.st === 'static' ) {
       if ( this.state[name].length > 0 ) {
-        this.state[name][this.state[name].length - 1].color = '#3f51b5';
+        let tower = this.state[name];
+        tower[tower.length - 1].color = '#3f51b5'
         this.setState({
+          name: tower,
           st:'catch'
         });
       }

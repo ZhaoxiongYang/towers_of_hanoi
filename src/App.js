@@ -6,12 +6,6 @@ import TopBar from "./components/TopBar";
 import Home from "./components/Home";
 import { connect } from 'react-redux';
 
-
-const mapStateToProps = store => {
-  return {
-    disknum: store.disknum,
-  }
-}
 class App extends Component {
   
   constructor(){
@@ -32,6 +26,6 @@ class App extends Component {
   } 
 }
 
-export default connect(mapStateToProps)(App);
+export default App;
 
 
