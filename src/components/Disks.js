@@ -32,6 +32,7 @@ class Disks extends Component {
       winCheckOpen:false,
       needInit: this.props.needInit, 
       Towers:['Tower1','Tower2','Tower3'],
+      colors:['#FF6666','#FF3333','#FF0000','#CC0000','#660000'],
       lock: false,
       step:0,
       Tower1:this.props.tower1,
@@ -55,7 +56,8 @@ class Disks extends Component {
       let Tower1 = Array(level).join(',').split(',').map((item,index,array) => {
         return { 
           num : array.length - index,
-          color : '#ff9800'
+          color : this.state.colors[array.length - index-1],
+          selected: false,
         };
       });
       let Tower2 = [];
@@ -124,6 +126,7 @@ class Disks extends Component {
       if ( this.state[name].length > 0 ) {
         let tower = this.state[name];
         tower[tower.length - 1].color = '#3f51b5' 
+        tower[tower.length - 1].selected = true
         this.setState({
           name: tower,
           gameStatus:'catch',
@@ -138,7 +141,8 @@ class Disks extends Component {
       let toTower = this.state[name];
       if ( toTower.length === 0 || toTower[toTower.length - 1].num >= formTower[formTower.length - 1].num ){
         let moveItem = formTower.pop();
-        moveItem.color = '#ff9800';
+        moveItem.color = this.state.colors[moveItem.num-1];
+        moveItem.selected = false;
         toTower.push(moveItem);
         let steps =this.state.step;
         if(formTowerName != name){
@@ -178,7 +182,7 @@ class Disks extends Component {
   }
 
   script(){
-    this.moveNtoWhere(7,'Column2').then(()=>console.log(1111));
+    this.moveNtoWhere(3,'Towers3').then(()=>console.log(1111));
   }
 
   moveNtoWhere(n,where){
@@ -295,7 +299,7 @@ class Disks extends Component {
     const { vertical, horizontal, open } = this.state;
     return (
       <div className='container'>
-        <div className="step">step:{this.state.step}</div>
+        <div className="step">Moves:{this.state.step}</div>
         
         <div className='Disks'>
           <Tower list={this.state.Tower1} clickFn={this.clickFn(0)} />

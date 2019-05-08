@@ -61,13 +61,22 @@ body {
   width: 4px;
   height: 150px;
   content: '';
-  display: block;
+  display: flex;
   background: #000000;
   position: absolute;
   bottom: -2px;
   left: calc(50% - 2px);
   z-index: 10;
   border-radius: 30px;
+}
+
+.step{
+  position: absolute;
+  top: 100px;
+  right: 50px;
+  width: 100px;
+  height: 20px;
+  font-size: 1.5rem;
 
 }
 
@@ -79,13 +88,6 @@ body {
 
 .container{
   text-align: center;
-}
-
-.top{
-  display: flex;
-  justify-content: center;
-  margin:20px auto;
-  max-width: 750px;
 }
 
 .name{
@@ -102,7 +104,11 @@ body {
 }
 
 ul,li{
+  z-index: 20;
   list-style:none;
   padding: 2;
   margin:0;
+}
+.selected{
+  top: -10rem;
 }
