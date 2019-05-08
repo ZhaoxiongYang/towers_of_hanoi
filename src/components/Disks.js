@@ -17,7 +17,6 @@ class Disks extends Component {
       alertOpen: false,
       winCheckOpen:false,
       Towers:['Tower1','Tower2','Tower3'],
-      lock:false,
       step:0,
       Tower1:[],
       Tower2:[],
@@ -86,8 +85,7 @@ class Disks extends Component {
         toTower.push(moveItem);
         this.setState({
           name : toTower,
-          formTowerName: formTower,
-
+          formTowerName: formTower, 
           activeTower : '',
           st:'static',
           step:++this.state.step
@@ -101,7 +99,6 @@ class Disks extends Component {
   }
 
   reset = ()=>{
-    if ( this.state.lock ) return false;
     this.initData();
   }
 
