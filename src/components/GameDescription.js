@@ -28,6 +28,8 @@ class GameDescription extends React.Component {
     </div>
   );
   }
+
+  
   
 }
 

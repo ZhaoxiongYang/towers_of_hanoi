@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import GameDescription from './GameDescription';
+import Disks from './Disks';
 
 const styles = theme => ({
   root: {
@@ -83,29 +84,57 @@ const images = [
   {
     url: 'https://www.pngkit.com/png/detail/193-1938084_pichu-switch-super-smash-bros-ultimate-pichu.png',
     title: 'EASY',
+    disknum: 3,
     width: '33.3%',
   },
   {
     url: 'https://pbs.twimg.com/media/CnpVgMfVYAA9k7Z.jpg',
     title: 'MEDIUM',
+    disknum: 4,
     width: '33.3%',
   },
   {
     url: 'https://www.nicepng.com/png/detail/441-4418524_alolan-raichu-png-raichu-alola-pokemon-png.png',
     title: 'HARD',
+    disknum: 5,
     width: '33.3%',
   },
 ];
 
 class Home extends React.Component {
+  constructor(){
+    super();
+    this.state = {
+      inGame : false,
+      disknum : 1
+    };
+  }
   render(){
     const {classes} = this.props;
-    return (
-      <div>
+
+    return this.state.inGame? this.getInGameHome(this.state.disknum): this.getNotInGameHome(classes);
+    }
+
+  handleClick = (event, disknum) => {
+    this.setState({ 
+      inGame: true,
+      disknum: disknum,
+     });
+  }
+
+  getInGameHome = (level) => {
+    return(
+      <Disks level = {level}/>
+      );
+  }
+
+  getNotInGameHome = (classes)=>{
+    return (<div>
       <GameDescription />
       <div className={classes.root}>
         {images.map(image => (
           <ButtonBase
+            onClick={(e)=>this.handleClick(e, image.disknum)}
             focusRipple
             key={image.title}
             className={classes.image}
@@ -135,8 +164,8 @@ class Home extends React.Component {
           </ButtonBase>
         ))}
       </div>
-    </div>
-  );} 
+    </div>);
+  } 
 }
 
 
