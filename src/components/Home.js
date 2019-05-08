@@ -4,7 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import GameDescription from './GameDescription';
-import Disks from './Disks';
+import GamePage from './GamePage';
 import { connect } from 'react-redux';
 import store from '../store';
 import {UPDATE_GAME_LEVEL} from "../ReduxStoreActions"
@@ -148,7 +148,7 @@ class Home extends React.Component {
 
   getInGameHome = (level) => {
     return(
-      <Disks level = {level} resetDifficulty={this.resetDifficulty}/>
+      <GamePage level = {level} resetDifficulty={this.resetDifficulty}/>
       );
   }
 

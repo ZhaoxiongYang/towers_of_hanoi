@@ -20,7 +20,7 @@ const mapStateToProps = store => {
   }
 }
 
-class Disks extends Component {
+class GamePage extends Component {
   
   constructor(props){
     super(props);
@@ -337,4 +337,4 @@ class Disks extends Component {
   } 
 }
 
-export default connect(mapStateToProps)(Disks);
+export default connect(mapStateToProps)(GamePage);
