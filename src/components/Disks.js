@@ -76,7 +76,7 @@ class Disks extends Component {
     }  
   }
 
-  clickFn(num){
+  clickFn = (num) =>{
     let list = [ 
       'Tower1',
       'Tower2',
@@ -84,17 +84,10 @@ class Disks extends Component {
     ]
     return () => {
       const name = list[num];
-      this.click(name);
+      if ( this.state.lock ) {return false;}
+      else{ this.click(name);}
+      
     }
-  }
-
-  timeoutClick(name){
-    return new Promise((resolve, reject) => {
-      setTimeout(()=>{
-        this.click(name);
-        return resolve();
-      },100);
-    });
   }
 
   updateGameStatus = (tower1,tower2,tower3,activeTower,gameStatus,needInit) => {
@@ -121,7 +114,7 @@ class Disks extends Component {
     })
   }
 
-  click(name){
+  click = (name) => {
     if ( this.state.gameStatus === 'static' ) {
       if ( this.state[name].length > 0 ) {
         let tower = this.state[name];
@@ -167,10 +160,20 @@ class Disks extends Component {
   }
 
   reset = ()=>{
+    if( this.state.lock ) return false;
     this.initData();
   }
 
-  answerStart(){  
+    timeoutClick(name){
+    return new Promise((resolve, reject) => {
+      setTimeout(()=>{
+        this.click(name);
+        return resolve();
+      },100);
+    });
+  }
+
+  answerStart=()=>{  
     if ( this.state.lock ) return false;
     this.initData();
     setTimeout(()=>{
@@ -181,18 +184,32 @@ class Disks extends Component {
     },0);
   }
 
-  script(){
-    this.moveNtoWhere(3,'Towers3').then(()=>console.log(1111));
+  script = ()=>{
+    let { level } = this.props;
+    this.moveNtoWhere(level,'Tower3');
+  }
+  unLock = ()=>{
+    this.setState({
+        lock:false
+      });
+
   }
 
-  moveNtoWhere(n,where){
+  moveNtoWhere = (n,where) => {
+    if ( n <= 1 ) return this.move1toWhere(where);
     let origin = this.findNum(n);
     let other = this.findOther(origin,where);
     return this.moveNtoWhere(n-1,other)
                .then(()=>this.timeoutClick(origin))
                .then(()=>this.timeoutClick(where))
                .then(()=>this.moveNtoWhere(n-1,where))
+               .then(()=>this.unLock())
                .catch((err)=>{console.log(err)});
+  }
+
+  move1toWhere(where){
+    let origin = this.findNum(1);
+    return this.timeoutClick(origin).then(()=>this.timeoutClick(where)).catch((err)=>{console.log(err)});
   }
 
   findOther(origin,where){
@@ -202,7 +219,7 @@ class Disks extends Component {
   findNum(number){
     const nameList = this.state.Towers;
     let name;
-    [ this.state.Tower1 , this.state.Tower2 , this.state.Tower3 ].forEach((item,index)=>{
+    [ this.state.Tower1 , this.state.Tower2, this.state.Tower3 ].forEach((item,index)=>{
       if ( item.find(el => el.num === number) !== undefined ) name = nameList[index];
     }); 
     return name;
@@ -288,7 +305,7 @@ class Disks extends Component {
       </span>
 
       <span style = {{padding : 20}} >
-          <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>start</Button>
+          <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>Solution</Button>
       </span>
       </div>
 
@@ -323,7 +340,7 @@ class Disks extends Component {
            handleClose={(e) => this.handleClose(e, this.reset)}
            confirmButton={this.getConfirmAction((e) => this.handleWinCheckClose(e, this.reset))} 
            dialogTitle="Congratulations!"
-           dialogMessage="You nailed it! Let's play again!"/>}
+           dialogMessage="You nailed it with! Let's play again!"/>}
         {
           this.getSnackBar(this.state.vertical,this.state.horizontal)
         }
