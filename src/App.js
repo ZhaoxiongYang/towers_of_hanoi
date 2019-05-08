@@ -17,8 +17,8 @@ export default class App extends Component {
   render (){
     return (
       <div className="App">
-        <div className = "App-header">
-          <TopBar />
+        <div >
+          <TopBar  />
         </div>
         <div className = "display">
           <Disks level={level} />

@@ -4,6 +4,7 @@ import Tower from "./Tower";
 import AlertDialog from './AlertDialog'
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
+import { spacing } from '@material-ui/system';
 
 class Disks extends Component {
   
@@ -185,12 +186,11 @@ class Disks extends Component {
           message={<span id="message-id">Wrong Move</span>}
         />)
   }
-
   render (){
     const { vertical, horizontal, open } = this.state;
     return (
       <div className='container'>
-        <div className="step">step:{this.state.step}</div>
+        
         <div className="top">
           <div className="name">Tower1</div>
           <div className="name">Tower2</div>
@@ -201,9 +201,13 @@ class Disks extends Component {
           <Tower list={this.state.Tower2} clickFn={this.clickFn(1)} />
           <Tower list={this.state.Tower3} clickFn={this.clickFn(2)} />
         </div>
-        <Button variant="outlined" color="primary" onClick={this.handleAlertOpen}>
+        <b />
+        <b />
+        <div>
+        <Button mx="auto" p={10} variant="contained" color="black" onClick={this.handleAlertOpen}>
           Restart
         </Button>
+        </div>
         {<AlertDialog 
           open={this.state.alertOpen} 
            handleClose={(e) => this.handleClose(e, this.reset)}

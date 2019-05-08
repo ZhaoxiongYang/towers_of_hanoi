@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 const styles = {
   root: {
@@ -14,18 +13,16 @@ const styles = {
 
 function TopBar(props) {
   const { classes } = props;
-
+  const img = <img style={{ width : 100}}src="https://certik.org/img/certik_256.png"/>;
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="black" >
+      <AppBar position="static" style={{ background: '#000000' }} >
         <Toolbar>
-          <Typography variant="h6" color="inherit">
-            Hanoi Tower
-          </Typography>
+            {img}
         </Toolbar>
       </AppBar>
     </div>
-  );
-}
+  );}
+
 
 export default withStyles(styles)(TopBar);
