@@ -106,14 +106,21 @@ class Home extends React.Component {
     super();
     this.state = {
       inGame : false,
-      disknum : 1
+      disknum : 0
     };
   }
   render(){
     const {classes} = this.props;
 
-    return this.state.inGame? this.getInGameHome(this.state.disknum): this.getNotInGameHome(classes);
+    return (this.state.inGame && this.state.disknum > 0 )? this.getInGameHome(this.state.disknum): this.getNotInGameHome(classes);
     }
+
+  resetDifficulty = () => {
+    this.setState({ 
+      inGame: false,
+      disknum: 0,
+     });
+  }
 
   handleClick = (event, disknum) => {
     this.setState({ 
@@ -124,7 +131,7 @@ class Home extends React.Component {
 
   getInGameHome = (level) => {
     return(
-      <Disks level = {level}/>
+      <Disks level = {level} resetDifficulty={this.resetDifficulty}/>
       );
   }
 

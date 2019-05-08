@@ -186,6 +186,22 @@ class Disks extends Component {
           message={<span id="message-id">Wrong Move</span>}
         />)
   }
+
+  getNovFooter = (resetDifficulty) => {
+    return (
+    <div>
+      <Button variant="contained" color="primary" onClick={resetDifficulty}>
+        Change difficulty
+      </Button>
+      
+      <Button variant="contained" color="primary" onClick={this.handleAlertOpen}>
+          Restart
+        </Button>
+      </div>
+
+    );
+  }
+
   render (){
     const { vertical, horizontal, open } = this.state;
     return (
@@ -199,11 +215,9 @@ class Disks extends Component {
         </div>
         <b />
         <b />
-        <div>
-        <Button mx="auto" p={10} variant="contained" color="black" onClick={this.handleAlertOpen}>
-          Restart
-        </Button>
-        </div>
+
+        {this.getNovFooter(this.props.resetDifficulty)}
+
         {<AlertDialog 
           open={this.state.alertOpen} 
            handleClose={(e) => this.handleClose(e, this.reset)}
