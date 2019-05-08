@@ -24,7 +24,6 @@ class Disks extends Component {
   
   constructor(props){
     super(props);
-    console.log("props", this.props)
     this.state = { 
       openSnakBarOpen : false,
       vertical: 'top',
@@ -41,15 +40,11 @@ class Disks extends Component {
       activeTower: this.props.activeTower,
       gameStatus:this.props.gameStatus, // static => catch => static
     };
-    console.log("state0", this.state.Tower2)
-
   }
 
   componentWillMount(){
-    console.log("init =", this.state)
     if(this.state.needInit)
       {
-        console.log("init0000 ")
         this.initData();
       }
   }
@@ -65,7 +60,6 @@ class Disks extends Component {
       });
       let Tower2 = [];
       let Tower3 = [];
-      console.log("state0: ", this.state)
 
       this.setState({
         Tower1: Tower1,
@@ -75,7 +69,6 @@ class Disks extends Component {
         gameStatus:'static', // static => catch => static
         needInit : false,
       });
-      console.log("state1: ", this.state)
       this.updatePreStepStatus(Tower1,Tower2,Tower3,"",'static',false)
       this.updateGameStatus(Tower1,Tower2,Tower3,"",'static',false)
     }  
@@ -93,8 +86,16 @@ class Disks extends Component {
     }
   }
 
+  timeoutClick(name){
+    return new Promise((resolve, reject) => {
+      setTimeout(()=>{
+        this.click(name);
+        return resolve();
+      },100);
+    });
+  }
+
   updateGameStatus = (tower1,tower2,tower3,activeTower,gameStatus,needInit) => {
-    console.log("test updateIsInGameStatus")
     store.dispatch({
       type:UPDATE_GAME_STATUS,
       tower1: tower1,
@@ -165,6 +166,43 @@ class Disks extends Component {
     this.initData();
   }
 
+  answerStart(){  
+    if ( this.state.lock ) return false;
+    this.initData();
+    setTimeout(()=>{
+      this.setState({
+        lock:true
+      });
+      this.script();
+    },0);
+  }
+
+  script(){
+    this.moveNtoWhere(7,'Column2').then(()=>console.log(1111));
+  }
+
+  moveNtoWhere(n,where){
+    let origin = this.findNum(n);
+    let other = this.findOther(origin,where);
+    return this.moveNtoWhere(n-1,other)
+               .then(()=>this.timeoutClick(origin))
+               .then(()=>this.timeoutClick(where))
+               .then(()=>this.moveNtoWhere(n-1,where))
+               .catch((err)=>{console.log(err)});
+  }
+
+  findOther(origin,where){
+    return this.state.Towers.filter(item => item !== origin && item !== where)[0];
+  }
+
+  findNum(number){
+    const nameList = this.state.Towers;
+    let name;
+    [ this.state.Tower1 , this.state.Tower2 , this.state.Tower3 ].forEach((item,index)=>{
+      if ( item.find(el => el.num === number) !== undefined ) name = nameList[index];
+    }); 
+    return name;
+  }
 
   winCheck(){
     let { level } = this.props;
@@ -217,7 +255,6 @@ class Disks extends Component {
   };
 
   getSnackBar = (vertical,horizontal) => {
-    console.log("wrong move")
     return (
       <Snackbar
           anchorOrigin={ {vertical, horizontal}}
@@ -246,6 +283,9 @@ class Disks extends Component {
         </Button>
       </span>
 
+      <span style = {{padding : 20}} >
+          <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>start</Button>
+      </span>
       </div>
 
     );
@@ -253,7 +293,6 @@ class Disks extends Component {
 
   render (){
     const { vertical, horizontal, open } = this.state;
-    console.log("state = ", this.state.Tower2  )
     return (
       <div className='container'>
         <div className="step">step:{this.state.step}</div>
