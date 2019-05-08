@@ -33,7 +33,6 @@ class Disks extends Component {
       needInit: this.props.needInit, 
       Towers:['Tower1','Tower2','Tower3'],
       colors:['#FF6666','#FF3333','#FF0000','#CC0000','#660000'],
-      lock: false,
       step:0,
       Tower1:this.props.tower1,
       Tower2:this.props.tower2,
@@ -84,8 +83,7 @@ class Disks extends Component {
     ]
     return () => {
       const name = list[num];
-      if ( this.state.lock ) {return false;}
-      else{ this.click(name);}
+      this.click(name);
       
     }
   }
@@ -160,7 +158,6 @@ class Disks extends Component {
   }
 
   reset = ()=>{
-    if( this.state.lock ) return false;
     this.initData();
   }
 
@@ -174,12 +171,8 @@ class Disks extends Component {
   }
 
   answerStart=()=>{  
-    if ( this.state.lock ) return false;
     this.initData();
     setTimeout(()=>{
-      this.setState({
-        lock:true
-      });
       this.script();
     },0);
   }
@@ -187,12 +180,6 @@ class Disks extends Component {
   script = ()=>{
     let { level } = this.props;
     this.moveNtoWhere(level,'Tower3');
-  }
-  unLock = ()=>{
-    this.setState({
-        lock:false
-      });
-
   }
 
   moveNtoWhere = (n,where) => {
@@ -203,7 +190,6 @@ class Disks extends Component {
                .then(()=>this.timeoutClick(origin))
                .then(()=>this.timeoutClick(where))
                .then(()=>this.moveNtoWhere(n-1,where))
-               .then(()=>this.unLock())
                .catch((err)=>{console.log(err)});
   }
 
