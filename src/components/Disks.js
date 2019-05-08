@@ -189,14 +189,18 @@ class Disks extends Component {
 
   getNovFooter = (resetDifficulty) => {
     return (
-    <div>
-      <Button variant="contained" color="primary" onClick={resetDifficulty}>
+    <div style = {{padding : 20}} >
+    <span style = {{padding : 20}}>
+      <Button style = {{padding : 20}} variant="contained" color="primary" onClick={resetDifficulty}>
         Change difficulty
       </Button>
+      </span>
+      <span style = {{padding : 20}} >
       
-      <Button variant="contained" color="primary" onClick={this.handleAlertOpen}>
+      <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.handleAlertOpen}>
           Restart
         </Button>
+      </span>
       </div>
 
     );
