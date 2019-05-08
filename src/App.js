@@ -3,15 +3,19 @@ import './App.css';
 import "./index.css";
 import Disks from "./components/Disks";
 import TopBar from "./components/TopBar";
-import Home from "./components/Home"
+import Home from "./components/Home";
+import { connect } from 'react-redux';
 
-const level = 3;
-export default class App extends Component {
+
+const mapStateToProps = store => {
+  return {
+    disknum: store.disknum,
+  }
+}
+class App extends Component {
   
   constructor(){
     super();
-    this.state = { 
-    };
   }
 
   render (){
@@ -27,4 +31,7 @@ export default class App extends Component {
     );
   } 
 }
+
+export default connect(mapStateToProps)(App);
+
 

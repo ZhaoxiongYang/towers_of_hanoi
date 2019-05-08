@@ -5,6 +5,9 @@ import ButtonBase from '@material-ui/core/ButtonBase';
 import Typography from '@material-ui/core/Typography';
 import GameDescription from './GameDescription';
 import Disks from './Disks';
+import { connect } from 'react-redux';
+import store from '../store';
+import {UPDATE_GAME_LEVEL} from "../ReduxStoreActions"
 
 const styles = theme => ({
   root: {
@@ -101,32 +104,45 @@ const images = [
   },
 ];
 
+const mapStateToProps = store => {
+  return {
+    disknum: store.game.disknum,
+  }
+}
+
 class Home extends React.Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
-      inGame : false,
-      disknum : 0
+      disknum : this.props.disknum
     };
   }
   render(){
     const {classes} = this.props;
 
-    return (this.state.inGame && this.state.disknum > 0 )? this.getInGameHome(this.state.disknum): this.getNotInGameHome(classes);
-    }
+    return this.state.disknum > 0 ? this.getInGameHome(this.state.disknum): this.getNotInGameHome(classes);
+  }
+
+  updateIsInGameStatus = (disknum) => {
+    console.log("test updateIsInGameStatus")
+    store.dispatch({
+      type:UPDATE_GAME_LEVEL ,
+      disknum: disknum,
+    })
+  }
 
   resetDifficulty = () => {
     this.setState({ 
-      inGame: false,
       disknum: 0,
      });
+    this.updateIsInGameStatus(0);
   }
 
   handleClick = (event, disknum) => {
     this.setState({ 
-      inGame: true,
       disknum: disknum,
      });
+    this.updateIsInGameStatus(disknum);
   }
 
   getInGameHome = (level) => {
@@ -176,4 +192,4 @@ class Home extends React.Component {
 }
 
 
-export default withStyles(styles)(Home);
+export default connect(mapStateToProps)(withStyles(styles)(Home));
