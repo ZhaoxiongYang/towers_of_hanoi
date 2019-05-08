@@ -22,7 +22,7 @@ class Disks extends Component {
       Tower2:[],
       Tower3:[],
       activeTower: '',
-      st:'static', // static => catch => static
+      gameStatus:'static', // static => catch => static
     };
 
   }
@@ -47,7 +47,7 @@ class Disks extends Component {
         Tower2,
         Tower3,
         step:0,
-        st:'static', // static => catch => static
+        gameStatus:'static', // static => catch => static
       });
     }  
   }
@@ -65,17 +65,17 @@ class Disks extends Component {
   }
 
   click(name){
-    if ( this.state.st === 'static' ) {
+    if ( this.state.gameStatus === 'static' ) {
       if ( this.state[name].length > 0 ) {
         let tower = this.state[name];
         tower[tower.length - 1].color = '#3f51b5' 
         this.setState({
           name: tower,
-          st:'catch',
+          gameStatus:'catch',
           activeTower: name,
         });
       }
-    } else if ( this.state.st === 'catch' ) {
+    } else if ( this.state.gameStatus === 'catch' ) {
       let formTowerName = this.state.activeTower;
       let formTower = this.state[formTowerName];
       let toTower = this.state[name];
@@ -87,7 +87,7 @@ class Disks extends Component {
           name : toTower,
           formTowerName: formTower, 
           activeTower : '',
-          st:'static',
+          gameStatus:'static',
           step:++this.state.step
         });
       }
@@ -104,7 +104,7 @@ class Disks extends Component {
 
   winCheck(){
     let { level } = this.props;
-    if ( this.state.st === 'catch') {
+    if ( this.state.gameStatus === 'catch') {
       if(this.state['Tower3'].length === level && this.state['Tower2'].length === 0 && this.state['Tower1'].length === 0){
         this.handleWinCheckAlertOpen();
       }

@@ -6,6 +6,11 @@ import {UPDATE_GAME_LEVEL} from "./ReduxStoreActions";
 
 const default_game = {
 	disknum : 0,
+	tower1: [],
+	tower2: [],
+	tower3: [],
+	activeTower: '',
+	gameStatus: 'static'
 }
 
 const gameReducer= (state = default_game, action) => {
