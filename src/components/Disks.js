@@ -7,7 +7,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import { spacing } from '@material-ui/system';
 import { connect } from 'react-redux';
 import store from '../store';
-import { UPDATE_GAME_STATUS} from "../ReduxStoreActions";
+import { UPDATE_GAME_STATUS, UPDATE_PRE_STEP_STATUS} from "../ReduxStoreActions";
 
 const mapStateToProps = store => {
   return {
@@ -33,6 +33,7 @@ class Disks extends Component {
       winCheckOpen:false,
       needInit: this.props.needInit, 
       Towers:['Tower1','Tower2','Tower3'],
+      lock: false,
       step:0,
       Tower1:this.props.tower1,
       Tower2:this.props.tower2,
@@ -75,6 +76,7 @@ class Disks extends Component {
         needInit : false,
       });
       console.log("state1: ", this.state)
+      this.updatePreStepStatus(Tower1,Tower2,Tower3,"",'static',false)
       this.updateGameStatus(Tower1,Tower2,Tower3,"",'static',false)
     }  
   }
@@ -104,6 +106,18 @@ class Disks extends Component {
     })
   }
 
+  updatePreStepStatus = (tower1,tower2,tower3,activeTower,gameStatus,needInit) => {
+    store.dispatch({
+      type:UPDATE_PRE_STEP_STATUS,
+      pre_tower1: tower1,
+      pre_tower2: tower2,
+      pre_tower3: tower3,
+      pre_activeTower: activeTower,
+      pre_gameStatus: gameStatus,
+      pre_needInit: needInit,
+    })
+  }
+
   click(name){
     if ( this.state.gameStatus === 'static' ) {
       if ( this.state[name].length > 0 ) {
@@ -125,12 +139,16 @@ class Disks extends Component {
         let moveItem = formTower.pop();
         moveItem.color = '#ff9800';
         toTower.push(moveItem);
+        let steps =this.state.step;
+        if(formTowerName != name){
+          steps = steps +1;
+        }
         this.setState({
           name : toTower,
           formTowerName: formTower, 
           activeTower : '',
           gameStatus:'static',
-          step:++this.state.step,
+          step: steps,
           needInit : false,
         });
         this.updateGameStatus(this.state.Tower1,this.state.Tower2,this.state.Tower3,this.state.activeTower,this.state.gameStatus,this.state.needInit)
@@ -146,6 +164,7 @@ class Disks extends Component {
   reset = ()=>{
     this.initData();
   }
+
 
   winCheck(){
     let { level } = this.props;
@@ -226,6 +245,7 @@ class Disks extends Component {
           Restart
         </Button>
       </span>
+
       </div>
 
     );
@@ -236,7 +256,7 @@ class Disks extends Component {
     console.log("state = ", this.state.Tower2  )
     return (
       <div className='container'>
-        
+        <div className="step">step:{this.state.step}</div>
         
         <div className='Disks'>
           <Tower list={this.state.Tower1} clickFn={this.clickFn(0)} />
