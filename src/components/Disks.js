@@ -191,11 +191,7 @@ class Disks extends Component {
     return (
       <div className='container'>
         
-        <div className="top">
-          <div className="name">Tower1</div>
-          <div className="name">Tower2</div>
-          <div className="name">Tower3</div>
-        </div>
+        
         <div className='Disks'>
           <Tower list={this.state.Tower1} clickFn={this.clickFn(0)} />
           <Tower list={this.state.Tower2} clickFn={this.clickFn(1)} />

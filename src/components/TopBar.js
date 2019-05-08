@@ -20,6 +20,7 @@ class TopBar extends Component {
         <AppBar position="static" style={{ background: '#000000' }} >
           <Toolbar>
               {img}
+              
           </Toolbar>
         </AppBar>
       </div>

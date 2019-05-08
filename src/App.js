@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import './App.css';
 import "./index.css";
-
 import Disks from "./components/Disks";
 import TopBar from "./components/TopBar";
-const level = 3;
+import Home from "./components/Home"
 
+const level = 3;
 export default class App extends Component {
   
   constructor(){
@@ -20,9 +20,9 @@ export default class App extends Component {
         <div >
           <TopBar  />
         </div>
-        <div className = "display">
-          <Disks level={level} />
-        </div>
+          <div>
+          <Home />
+          </div>
       </div>
     );
   } 
