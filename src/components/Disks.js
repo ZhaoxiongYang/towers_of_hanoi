@@ -189,7 +189,7 @@ class Disks extends Component {
 
   getNovFooter = (resetDifficulty) => {
     return (
-    <div style = {{padding : 20}} >
+    <div style = {{paddingTop : 100 }} >
     <span style = {{padding : 20}}>
       <Button style = {{padding : 20}} variant="contained" color="primary" onClick={resetDifficulty}>
         Change difficulty
