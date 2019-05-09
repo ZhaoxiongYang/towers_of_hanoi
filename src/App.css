@@ -112,3 +112,9 @@ ul,li{
 .selected{
   top: -10rem;
 }
+
+.button{
+  padding : 20;
+  backgroundColor :'#bf3f38';
+  color: '#ffffff';
+}

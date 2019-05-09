@@ -19,6 +19,12 @@ const mapStateToProps = store => {
     needInit : store.game.needInit,
   }
 }
+const button_style = {
+  fontWeight: 'bold',
+  padding : 20, 
+  backgroundColor :'#bf3f38', 
+  color: '#ffffff',
+};
 
 class GamePage extends Component {
   
@@ -100,18 +106,6 @@ class GamePage extends Component {
     })
   }
 
-  updatePreStepStatus = (tower1,tower2,tower3,activeTower,gameStatus,needInit) => {
-    store.dispatch({
-      type:UPDATE_PRE_STEP_STATUS,
-      pre_tower1: tower1,
-      pre_tower2: tower2,
-      pre_tower3: tower3,
-      pre_activeTower: activeTower,
-      pre_gameStatus: gameStatus,
-      pre_needInit: needInit,
-    })
-  }
-
   click = (name) => {
     if ( this.state.gameStatus === 'static' ) {
       if ( this.state[name].length > 0 ) {
@@ -166,7 +160,7 @@ class GamePage extends Component {
       setTimeout(()=>{
         this.click(name);
         return resolve();
-      },100);
+      },300);
     });
   }
 
@@ -279,19 +273,19 @@ class GamePage extends Component {
     return (
     <div style = {{paddingTop : 100 }} >
     <span style = {{padding : 20}}>
-      <Button style = {{padding : 20}} variant="contained" color="primary" onClick={resetDifficulty}>
+      <Button style = {button_style} variant="contained" color="red" onClick={resetDifficulty}>
         Change difficulty
       </Button>
       </span>
       <span style = {{padding : 20}} >
       
-      <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.handleAlertOpen}>
+      <Button style = {button_style} variant="contained"  onClick={this.handleAlertOpen}>
           Restart
         </Button>
       </span>
 
       <span style = {{padding : 20}} >
-          <Button style = {{padding : 20}} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>
+          <Button style = {button_style} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>
             Solution
           </Button>
       </span>
