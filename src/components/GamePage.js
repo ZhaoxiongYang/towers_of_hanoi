@@ -31,7 +31,7 @@ class GamePage extends Component {
     super(props);
     this.state = { 
       openSnakBarOpen : false,
-      vertical: 'top',
+      vertical: 'bottom',
       horizontal: 'center',
       alertOpen: false,
       winCheckOpen:false,
@@ -108,7 +108,7 @@ class GamePage extends Component {
     if ( this.state.gameStatus === 'static' ) {
       if ( this.state[name].length > 0 ) {
         let tower = this.state[name];
-        tower[tower.length - 1].color = '#3f51b5' 
+        tower[tower.length - 1].color = '#ffb321' 
         tower[tower.length - 1].selected = true
         this.setState({
           name: tower,
