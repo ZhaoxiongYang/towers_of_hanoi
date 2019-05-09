@@ -21,7 +21,6 @@ const mapStateToProps = store => {
 }
 const button_style = {
   fontWeight: 'bold',
-  padding : 20, 
   backgroundColor :'#bf3f38', 
   color: '#ffffff',
 };
@@ -76,7 +75,6 @@ class GamePage extends Component {
         gameStatus:'static', // static => catch => static
         needInit : false,
       });
-      this.updatePreStepStatus(Tower1,Tower2,Tower3,"",'static',false)
       this.updateGameStatus(Tower1,Tower2,Tower3,"",'static',false)
     }  
   }
@@ -242,7 +240,7 @@ class GamePage extends Component {
   }
 
   getConfirmAction=(clickHandler)=>{
-    return(<Button onClick={clickHandler} color="primary" autoFocus>
+    return(<Button style = {button_style} onClick={clickHandler}  autoFocus>
               YES
             </Button>);
   }
@@ -273,19 +271,19 @@ class GamePage extends Component {
     return (
     <div style = {{paddingTop : 100 }} >
     <span style = {{padding : 20}}>
-      <Button style = {button_style} variant="contained" color="red" onClick={resetDifficulty}>
+      <Button style = {{...button_style, padding : 20}} variant="contained" color="red" onClick={resetDifficulty}>
         Change difficulty
       </Button>
       </span>
       <span style = {{padding : 20}} >
       
-      <Button style = {button_style} variant="contained"  onClick={this.handleAlertOpen}>
+      <Button style = {{...button_style, padding : 20}} variant="contained"  onClick={this.handleAlertOpen}>
           Restart
         </Button>
       </span>
 
       <span style = {{padding : 20}} >
-          <Button style = {button_style} variant="contained" color="primary" onClick={this.answerStart.bind(this)}>
+          <Button style = {{...button_style, padding : 20}} variant="contained"  onClick={this.answerStart.bind(this)}>
             Solution
           </Button>
       </span>
@@ -294,11 +292,15 @@ class GamePage extends Component {
     );
   }
 
+  getWinMessage =(movesNum) => {
+    return `You nailed it with ${movesNum} moves! Let's play again!`
+  }
+
   render (){
     const { vertical, horizontal, open } = this.state;
     return (
       <div className='container'>
-        <div className="step">Moves:{this.state.step}</div>
+        <div className="step"><font color='#e5e5e5'><strong>Moves:{this.state.step}</strong></font></div>
         
         <div className='Disks'>
           <Tower list={this.state.Tower1} clickFn={this.clickFn(0)} />
@@ -322,7 +324,7 @@ class GamePage extends Component {
            handleClose={(e) => this.handleClose(e, this.reset)}
            confirmButton={this.getConfirmAction((e) => this.handleWinCheckClose(e, this.reset))} 
            dialogTitle="Congratulations!"
-           dialogMessage="You nailed it with! Let's play again!"/>}
+           dialogMessage={this.getWinMessage(this.state.step)}/>}
         {
           this.getSnackBar(this.state.vertical,this.state.horizontal)
         }
